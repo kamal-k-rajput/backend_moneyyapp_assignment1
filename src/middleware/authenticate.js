@@ -34,9 +34,8 @@ const authenticate = async (req, res, next) => {
       .send({ message: "Authorization token not found or incorrect" });
   }
 
-  console.log(decoded);
 
-  req.userID = decoded.user._id;
+  req.body.userId = decoded.user._id;
 
   return next();
 };

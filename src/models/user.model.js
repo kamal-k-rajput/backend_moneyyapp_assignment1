@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcryptjs");
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -14,35 +14,35 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    address: [
-      {
-        line_1: {
-          type: String,
-          required: true,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    cart: {
+      products: [
+        {
+          productId: {
+            type: mongoose.Schema.Types.ObjectId,
+          },
         },
-        line_2: {
-          type: String,
-        },
-        postalCode: {
-          type: Number,
-          required: true,
-        },
-        city: {
-          type: String,
-          required: true,
-        },
-        state: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+      ],
+      totalItems: 0,
+    },
   },
   {
     versionKey: false,
     timestamps: true,
   }
 );
+userSchema.pre("save", function (next) {
+  const hash = bcrypt.hashSync(this.password, 8);
+  this.password = hash;
+  return next();
+});
 
-const User = mongoose.model("user", userSchema);
+userSchema.methods.checkPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+const User = new mongoose.model("user", userSchema);
 module.exports = User;

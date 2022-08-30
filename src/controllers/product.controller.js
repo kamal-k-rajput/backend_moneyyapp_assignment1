@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticate = require("../middleware/authenticate");
 
 const router = express.Router();
 const Product = require("../models/product.model");
@@ -10,12 +11,13 @@ router.get("/", async (req, res) => {
     let page = +req.query.pageNo || 1;
     let skip = limit * (page - 1);
     let sort = +req.query.sortBy || 1;
+
     let products = await Product.find({
       mrp: { $gt: req.query.minPrice, $lt: req.query.maxPrice },
     })
       .skip(skip)
       .limit(limit)
-      .sort({ price: sort })
+      .sort({ mrp: sort })
       .lean()
       .exec();
     if (!products) {
@@ -31,7 +33,7 @@ router.get("/", async (req, res) => {
   }
 });
 // ------------------create a new product------------------------
-router.post("/create", async (req, res) => {
+router.post("/create", authenticate, async (req, res) => {
   try {
     let product = await Product.create(req.body);
     if (!product) {

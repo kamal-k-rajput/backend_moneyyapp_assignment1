@@ -6,6 +6,11 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     mrp: {
       type: Number,
       required: true,
@@ -14,7 +19,7 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    qty: {
+    quantity: {
       type: Number,
       required: true,
       default: 1,
@@ -23,6 +28,11 @@ const productSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    reviews: [
+      {
+        reviewId: { type: String },
+      },
+    ],
     images: { type: Array, required: true },
   },
   {
@@ -30,6 +40,6 @@ const productSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const Product = mongoose.model("product", productSchema);
+const Product = new mongoose.model("product", productSchema);
 
 module.exports = Product;
