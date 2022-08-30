@@ -6,7 +6,6 @@ const Product = require("../models/product.model");
 //--------------------------get all products--------------------------------
 router.get("/", async (req, res) => {
   try {
-    console.log(req.query);
     let limit = +req.query.results || 10;
     let page = +req.query.pageNo || 1;
     let skip = limit * (page - 1);

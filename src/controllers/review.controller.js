@@ -8,10 +8,8 @@ const ReviewModel = require("../models/review.model");
 
 router.post("/:productId/create", authenticate, async (req, res) => {
   try {
-    console.log(req.params, "params");
     req.body.productId = req.params.productId;
     const review = await ReviewModel.create(req.body);
-    console.log(req.body, "from the req.body.revieww.controller");
     if (!review) {
       return res
         .status(404)

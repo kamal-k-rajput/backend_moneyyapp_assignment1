@@ -28,7 +28,6 @@ const authenticate = async (req, res, next) => {
   try {
     decoded = await verifyToken(token);
   } catch (err) {
-    console.log(err);
     return res
       .status(400)
       .send({ message: "Authorization token not found or incorrect" });
