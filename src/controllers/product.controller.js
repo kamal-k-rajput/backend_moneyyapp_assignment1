@@ -35,6 +35,7 @@ router.get("/", async (req, res) => {
 router.post("/create", authenticate, async (req, res) => {
   try {
     let product = await Product.create(req.body);
+    console.log(req.body);
     if (!product) {
       return res.status(404).send({
         status: false,

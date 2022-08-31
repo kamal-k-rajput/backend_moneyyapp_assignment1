@@ -19,16 +19,18 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    cart: {
-      products: [
-        {
-          productId: {
-            type: mongoose.Schema.Types.ObjectId,
-          },
+    cart: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
         },
-      ],
-      totalItems: 0,
-    },
+        qty: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
   },
   {
     versionKey: false,
