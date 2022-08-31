@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const generateToken = (user) => {
-  return jwt.sign({ user }, process.env.SECRET_KEY);
+  return jwt.sign({ user }, "moneyy");
 };
 const register = async (req, res) => {
   try {
@@ -44,4 +44,3 @@ const login = async (req, res) => {
   }
 };
 module.exports = { register, login };
-
